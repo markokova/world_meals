@@ -28,5 +28,11 @@ class Meal extends Model
         if($filters['tag'] ?? false) {
              $query->where('tags.title', 'like', '%' . request('tag') . '%');
         }
+
+        if($filters['search'] ?? false) {
+            $query->where('title', 'like', '%' . request('search') . '%')
+            ->orWhere('description', 'like', '%' . request('search') . '%')
+            ->orWhere('status', 'like', '%' . request('search') . '%');
+        }
     }
 }

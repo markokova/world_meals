@@ -43,6 +43,8 @@ class MealFactory extends Factory
             $meal->ingredients()->attach($ingredients);
 
             $meal->save();
+            $tags->save();
+            $ingredients->save();
         });
         /*
         

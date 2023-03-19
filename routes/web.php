@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MealController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Meal;
@@ -14,20 +15,11 @@ use App\Models\Meal;
 |
 */
 //All Listings
-Route::get('/', function () {
-    return view('meals', [
-        'heading' => 'Latest Meals',
-        'meals' => Meal::all()
-    ]);
-});  
+Route::get('/', [MealController::class,'index']);  
 
 //Single Listing
 //Listing ENDPOINT
-Route::get('/meals/{id}', function ($id) {
-    return view('meal', [
-        'meal' => Meal::find($id)
-    ]);
-});
+Route::get('/meals/{meal}', [MealController::class,'show']);
 
 // Route::get('link za view', function ($id) {
 //     return view('ime_viewa', [

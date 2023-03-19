@@ -20,6 +20,10 @@ class DatabaseSeeder extends Seeder
             $meal = \App\Models\Meal::factory()->make();
             $meal->category_id = $category->first()->id;
             $meal->save();
+            $tags = \App\Models\Tag::factory(3)->create();
+            $meal->tags()->attach($tags->pluck('id')->toArray());
+            $ingredients = \App\Models\Ingredient::factory(4)->create();
+            $meal->ingredients()->attach($ingredients->pluck('id')->toArray());
             //$meal = \App\Models\Meal::factory(1);
             //$meal['category_id'] = $category->id;
             //$meal->create();
