@@ -11,6 +11,12 @@ class Tag extends Model
 
     public function meals()
     {
-        return $this->belongsToMany(Meal::class);
+        return $this->belongsToMany(Meal::class, 'meal_tag');
+    }
+
+    public function scopeFilter($query, $filter){
+        if($filter ?? false) {
+            $query->where('tags.title', 'like', '%' . $filter . '%');
+            }
     }
 }

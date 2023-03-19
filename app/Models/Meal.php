@@ -16,11 +16,17 @@ class Meal extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class, 'meal_tag');
     }
 
     public function ingredients()
     {
         return $this->belongsToMany(Ingredient::class);
+    }
+
+    public function scopeFilter($query, array $filters){
+        if($filters['tag'] ?? false) {
+             $query->where('tags.title', 'like', '%' . request('tag') . '%');
+        }
     }
 }
