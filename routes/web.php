@@ -14,15 +14,7 @@ use App\Models\Meal;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-//All Listings
 Route::get('/', [MealController::class,'index']);  
 
-//Single Listing
-//Listing ENDPOINT
 Route::get('/meals/{meal}', [MealController::class,'show']);
 
-// Route::get('link za view', function ($id) {
-//     return view('ime_viewa', [
-//         sadržaj viewa - varijable, arrayevi...
-//     ]);
-// });

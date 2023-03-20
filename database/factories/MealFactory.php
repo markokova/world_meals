@@ -32,10 +32,6 @@ class MealFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function(Meal $meal) {
-            // $category = Category::factory()->create();
-            // //$meal->category()->associate($category);  
-            // $meal->category_id = $category->id;
-
             $tags = Tag::factory()->count(2)->create();
             $meal->tags()->attach($tags);
 
@@ -46,17 +42,5 @@ class MealFactory extends Factory
             $tags->save();
             $ingredients->save();
         });
-        /*
-        
-
-            $tags = Tag::factory()->count(2)->create();
-            $meal->tags()->attach($tags);
-
-            $quantities = [1, 2]; // You can customize this array to specify different quantities for each ingredient
-
-            foreach ($ingredients as $key => $ingredient) {
-                $meal->ingredients()->attach($ingredient, ['quantity' => $quantities[$key]]);
-            }
-        */
     }
 }

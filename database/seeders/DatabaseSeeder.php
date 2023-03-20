@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
     {
         //create 10 users
           \App\Models\User::factory(10)->create();
-          //create 20 meals
+          //create 40 meals
           for($x=0; $x < 40; $x++){
             $category = \App\Models\Category::factory(1)->create();
             $meal = \App\Models\Meal::factory()->make();
@@ -24,13 +24,7 @@ class DatabaseSeeder extends Seeder
             $meal->tags()->attach($tags->pluck('id')->toArray());
             $ingredients = \App\Models\Ingredient::factory(4)->create();
             $meal->ingredients()->attach($ingredients->pluck('id')->toArray());
-            //$meal = \App\Models\Meal::factory(1);
-            //$meal['category_id'] = $category->id;
-            //$meal->create();
+
           }
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }
