@@ -16,5 +16,8 @@ use App\Models\Meal;
 */
 Route::get('/', [MealController::class,'index']);  
 
+// Search Form, Per Page Form
+Route::post('/', [MealController::class,'index']);  
+
 Route::get('/meals/{meal}', [MealController::class,'show']);
 
