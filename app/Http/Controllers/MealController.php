@@ -10,34 +10,53 @@ use App\Http\Controllers\Controller;
 
 class MealController extends Controller
 {
-    //Show all listings
     public function index(){
+        $tag_ids = MealController::find_tags();
+
+        $search = null;
+        $meals = Meal::query();
+        if(request()->has('search')){
+            $search = request()->search;
+            $meals->latest()->filter(request(['search']));
+        }
+
+        $meals = MealController::search_by_tags($tag_ids, $meals);
+
+        if(!$search && !$tag_ids){
+            $meals->latest();
+        }
+        $meals = MealController::meals_per_page($meals);
+        
+        return view('meals.index', ['meals' => $meals]);
+    }
+
+    protected function meals_per_page($meals){
+        //default per_page value
+        $per_page = 8;
+        if(request()->has('per_page')){
+            $per_page = request('per_page');
+        }
+        $meals = $meals->paginate($per_page);
+        return $meals;
+    }
+
+    protected function find_tags(){
         $tag_ids = null;
         if(request()->has('tag')){
             $tag_title = request(['tag']);
             $tags = Tag::whereIn('title', $tag_title)->get();
             $tag_ids = $tags->pluck('id')->toArray();
         }
-        $search = null;
-        $meals = array();
-        if(request()->has('search')){
-            $search = request()->search;
-            $meals = Meal::latest()->filter(request(['search']))->get();
-        }
-
-        if($tag_ids){
-            $meals = Meal::whereHas('tags', function($query) use ($tag_ids) {
-                $query->whereIn('tag_id', $tag_ids);
-            })->get();
-        }
-        else if(!$search){
-            $meals = Meal::latest()->get();
-        }
-            return view('meals.index', ['meals' => $meals]);
+        return $tag_ids;
     }
 
-    private function search(){
-        
+    protected function search_by_tags($tag_ids, $meals){
+        if($tag_ids){
+            $meals->whereHas('tags', function ($query) use ($tag_ids) {
+                $query->whereIn('tag_id', $tag_ids);
+            });
+        }
+        return $meals;
     }
 
     public function show(Meal $meal){

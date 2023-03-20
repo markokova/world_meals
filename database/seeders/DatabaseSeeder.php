@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
         //create 10 users
           \App\Models\User::factory(10)->create();
           //create 20 meals
-          for($x=0; $x < 20; $x++){
+          for($x=0; $x < 40; $x++){
             $category = \App\Models\Category::factory(1)->create();
             $meal = \App\Models\Meal::factory()->make();
             $meal->category_id = $category->first()->id;
