@@ -22,6 +22,9 @@ class MealController extends Controller
 
         $meals = MealController::search_by_tags($tag_ids, $meals);
 
+        $meals = MealController::search_by_status($meals);
+        $meals = MealController::search_by_category($meals);
+
         if(!$search && !$tag_ids){
             $meals->latest();
         }
@@ -56,6 +59,24 @@ class MealController extends Controller
                 $query->whereIn('tag_id', $tag_ids);
             });
         }
+        return $meals;
+    }
+
+    protected function search_by_status($meals){
+        $status = null;
+        if(request()->has('status')){
+            $status = request('status');
+        }
+        $meals->latest()->filter(request(['status']));
+        return $meals;
+    }
+
+    protected function search_by_category($meals){
+        $category = null;
+        if(request()->has('category')){
+            $category = request('category');
+        }
+        $meals->latest()->filter(request(['category']));
         return $meals;
     }
 

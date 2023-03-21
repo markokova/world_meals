@@ -34,5 +34,13 @@ class Meal extends Model
             ->orWhere('description', 'like', '%' . request('search') . '%')
             ->orWhere('status', 'like', '%' . request('search') . '%');
         }
+
+        if($filters['status'] ?? false) {
+            $query->where('status', 'like', '%' . request('status') . '%');
+        }
+
+        if($filters['category'] ?? false) {
+            $query->where('category', 'like', '%' . request('category') . '%');
+        }
     }
 }

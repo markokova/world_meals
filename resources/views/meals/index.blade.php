@@ -2,6 +2,13 @@
 
 @section('content')
 @include('partials._hero')
+<div style="width:100%;" class=" mx-4">
+    <p>Filter by:</p>
+    <div style="width: 20%; display: inline-block;">@include('partials._search_status')</div>
+    <div style="width: 20%; display: inline-block;">@include('partials._search_category')</div>
+</div>
+
+
 @include('partials._search')
 <div class="lg:grid lg:grid-cols-2 gap-4 space-y-4 md:space-y-0 mx-4">
     @if(count($meals) == 0)
