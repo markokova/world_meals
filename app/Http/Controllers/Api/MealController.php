@@ -32,10 +32,13 @@ class MealController extends Controller
             }
             MealController::filterByStatus();
             MealController::filterByCategory();
+            MealController::filterByDiffTime();
         } else{
             //fetch all meals
             $this->meals->latest();
         }
+
+        
 
         if($this->meals != null) {
             //paginate
@@ -120,4 +123,19 @@ class MealController extends Controller
             $this->meals->latest()->filter(request(['category']));
         }
     }
+
+    protected function filterByDiffTime(){
+        if (is_numeric(request()->diff_time) && request()->diff_time > 0) {
+            // Get the date that is diff_time seconds ago
+            $diff_date = date('Y-m-d H:i:s', strtotime('-' . request()->diff_time . ' seconds'));
+            // Select all meals that were created or modified  after $diff_date
+            $this->meals->where('created_at', '>=', $diff_date)
+                       ->orWhere('updated_at', '>=', $diff_date);
+        }
+    }
 }
+/*
+validacija:
+diff_time treba biti broj
+
+*/
