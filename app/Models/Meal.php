@@ -2,13 +2,19 @@
 
 namespace App\Models;
 
+use Astrotomic\Translatable\Translatable;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Meal extends Model
+
+class Meal extends Model implements TranslatableContract 
 {
     use HasFactory;
+    use Translatable;
 
+    public $translatedAttributes = ['title', 'description'];
+      
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -25,22 +31,18 @@ class Meal extends Model
     }
 
     public function scopeFilter($query, array $filters){
-        if($filters['tag'] ?? false) {
-             $query->where('tags.title', 'like', '%' . request('tag') . '%');
-        }
-
         if($filters['search'] ?? false) {
             $query->where('title', 'like', '%' . request('search') . '%')
             ->orWhere('description', 'like', '%' . request('search') . '%')
             ->orWhere('status', 'like', '%' . request('search') . '%');
         }
-
+        //status ne radi iz nekog razloga
         if($filters['status'] ?? false) {
             $query->where('status', 'like', '%' . request('status') . '%');
         }
 
         if($filters['category'] ?? false) {
-            $query->where('category', 'like', '%' . request('category') . '%');
+            $query->where('category_id', 'like', '%' . request('category') . '%');
         }
     }
 }
