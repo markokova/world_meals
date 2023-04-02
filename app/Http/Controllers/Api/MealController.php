@@ -11,20 +11,15 @@ class MealController extends Controller
 {
     protected $meals;
 
-    public function index() {
+    public function index() 
+    {
         // $lang = request('lang', 'en'); //default language is English
-        // $search = null;
         // $meals = Meal::query()->withTranslation($lang);
         $tag_ids = MealController::findTags();
         $this->meals = Meal::query();
-        
-        // if(request()->has('search')){
-        //     $search = request()->search;
-        //     $meals->latest()->filter(request(['search']));
-        // }
 
-        if(request()->has('tags') || request()->has('category') ||
-         request()->has('lang') || request()->has('diff_time')) {
+        if(request()->has('tags') || request()->has('category') || request()->has('status') 
+        || request()->has('lang') || request()->has('diff_time')) {
             MealController::filterByTags($tag_ids);
             if($this->meals == null) {
                 $this->meals = array();
@@ -78,7 +73,8 @@ class MealController extends Controller
         return view('meals.index', ['data' => $data]);
     }
 
-    protected function mealsPerPage() {
+    protected function mealsPerPage() 
+    {
         $per_page = 8;//default per_page value
         if(request()->has('per_page')) {
             $per_page = request('per_page');
@@ -86,7 +82,8 @@ class MealController extends Controller
         $this->meals->paginate($per_page);
     }
 
-    protected function findTags() {
+    protected function findTags() 
+    {
         $request_result = request('tags');
         $tags = null;
         if($request_result) {
@@ -95,7 +92,8 @@ class MealController extends Controller
         return $tags;
     }
 
-    protected function filterByTags($tag_ids) {
+    protected function filterByTags($tag_ids) 
+    {
         if(request()->has('tags')) {
             $tags = Tag::find($tag_ids);
             $tag_count_in_request = count($tag_ids);
@@ -112,19 +110,22 @@ class MealController extends Controller
         }
     }
 
-    protected function filterByStatus() {
+    protected function filterByStatus() 
+    {
         if(request()->has('status')) {
             $this->meals->latest()->filter(request(['status']));
         }
     }
 
-    protected function filterByCategory() {
+    protected function filterByCategory()
+    {
         if(request()->has('category')) {
             $this->meals->latest()->filter(request(['category']));
         }
     }
 
-    protected function filterByDiffTime(){
+    protected function filterByDiffTime()
+    {
         if (is_numeric(request()->diff_time) && request()->diff_time > 0) {
             // Get the date that is diff_time seconds ago
             $diff_date = date('Y-m-d H:i:s', strtotime('-' . request()->diff_time . ' seconds'));

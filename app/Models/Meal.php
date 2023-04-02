@@ -31,12 +31,6 @@ class Meal extends Model implements TranslatableContract
     }
 
     public function scopeFilter($query, array $filters){
-        if($filters['search'] ?? false) {
-            $query->where('title', 'like', '%' . request('search') . '%')
-            ->orWhere('description', 'like', '%' . request('search') . '%')
-            ->orWhere('status', 'like', '%' . request('search') . '%');
-        }
-        //status ne radi iz nekog razloga
         if($filters['status'] ?? false) {
             $query->where('status', 'like', '%' . request('status') . '%');
         }
