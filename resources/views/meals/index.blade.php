@@ -2,6 +2,7 @@
     <p>No meals found.</p>
 @endif
 @php
+    print_r($meta);
     print_r($data);
 @endphp
 

@@ -15,4 +15,5 @@ class MealTranslation extends Model
 
     public $timestamps = false;
     protected $fillable = ['title', 'description'];
+    public $translatedAttributes = ['title'];
 }

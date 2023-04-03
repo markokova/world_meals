@@ -14,7 +14,7 @@ class Meal extends Model implements TranslatableContract
     use Translatable;
 
     public $translatedAttributes = ['title', 'description'];
-      
+    
     public function category()
     {
         return $this->belongsTo(Category::class);
