@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
-use Astrotomic\Translatable\Translatable;
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Meal extends Model implements TranslatableContract 
+class Meal extends Model
 {
     use HasFactory;
-    use Translatable;
 
     public $translatedAttributes = ['title', 'description'];
     
@@ -22,21 +20,16 @@ class Meal extends Model implements TranslatableContract
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'meal_tag');
+        return $this->belongsToMany(Tag::class, 'meal_tag')->with('translations');
     }
 
     public function ingredients()
     {
-        return $this->belongsToMany(Ingredient::class);
+        return $this->belongsToMany(Ingredient::class)->with('translations');
     }
 
-    public function scopeFilter($query, array $filters){
-        if($filters['status'] ?? false) {
-            $query->where('status', 'like', '%' . request('status') . '%');
-        }
-
-        if($filters['category'] ?? false) {
-            $query->where('category_id', 'like', '%' . request('category') . '%');
-        }
+    public function translations()
+    {
+        return $this->hasMany(MealTranslation::class);
     }
 }

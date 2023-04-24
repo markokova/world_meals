@@ -18,7 +18,7 @@ class IngredientFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(3),
-            'slug' => $this->faker->sentence(2),
+            'slug' => $this->faker->sentence(3),
         ];
     }
 }

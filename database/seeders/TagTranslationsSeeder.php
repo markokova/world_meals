@@ -20,11 +20,15 @@ class TagTranslationsSeeder extends Seeder
     
         foreach ($tags as $tag) {
             foreach ($locales as $locale) {
-                TagTranslation::create([
-                    'locale' => $locale,
-                    'tag_id' => $tag->id,
-                    'title' => TagTranslation::definition()['title'],
-                ]);
+                $existing_translation = TagTranslation::where('tag_id', $tag->id)
+                    ->where('locale', $locale)
+                    ->first();
+                if(!$existing_translation){
+                $translation = TagTranslation::factory()->make();
+                $translation->locale = $locale;
+                $translation->tag_id = $tag->id;
+                $translation->save();
+                }
             }
         }
     }

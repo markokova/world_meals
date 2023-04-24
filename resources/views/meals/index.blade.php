@@ -1,5 +1,5 @@
 @if(count($data) == 0)
-    <p>No meals found.</p>
+    No meals found.
 @endif
 @php
     print_r($meta);

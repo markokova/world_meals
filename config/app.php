@@ -81,11 +81,11 @@ return [
     | to any of the locales which will be supported by the application.
     |
     */
-    // 'locales' => [
-    //     'en',
-    //     'fr',
-    //     'de',
-    // ],
+    'locales' => [
+        'en',
+        'fr',
+        'de',
+    ],
     'locale' => 'en',
     /*
     |--------------------------------------------------------------------------
@@ -184,7 +184,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Astrotomic\Translatable\TranslatableServiceProvider::class,
         
 
 

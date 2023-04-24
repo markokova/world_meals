@@ -2,17 +2,20 @@
 
 namespace App\Models;
 
-use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
 class CategoryTranslation extends Model
 {
     use HasFactory;
-    use Translatable;
 
     public $translationModel = 'CategoryTranslation'; 
+    protected $table = 'category_translations';
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     public $timestamps = false;
     protected $fillable = ['title'];

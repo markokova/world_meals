@@ -3,6 +3,10 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\CategoryTranslation;
+use App\Models\MealTranslation;
+use App\Models\TagTranslation;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,19 +16,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void 
     {
-        //create 10 users
-          \App\Models\User::factory(10)->create();
-          //create 40 meals
-          for($x=0; $x < 40; $x++){
-            $category = \App\Models\Category::factory(1)->create();
-            $meal = \App\Models\Meal::factory()->make();
-            $meal->category_id = $category->first()->id;
-            $meal->save();
-            $tags = \App\Models\Tag::factory(3)->create();
-            $meal->tags()->attach($tags->pluck('id')->toArray());
-            $ingredients = \App\Models\Ingredient::factory(4)->create();
-            $meal->ingredients()->attach($ingredients->pluck('id')->toArray());
 
-          }
+      $this->call([
+        MealSeeder::class,
+        MealTranslationsSeeder::class,
+        CategoryTranslationsSeeder::class,
+        IngredientTranslationsSeeder::class,
+        TagTranslationsSeeder::class
+      ]);
+      //create 10 users
+      \App\Models\User::factory(10)->create();
     }
 }
